@@ -1,6 +1,3 @@
-// Plugins
-const CopyPlugin = require('copy-webpack-plugin');
-
 // Exporting common webpack configuration
 module.exports = {
   // Entry points
@@ -8,21 +5,6 @@ module.exports = {
 
   // Dev tools Configuration
   devtool: 'source-maps',
-
-  // Plugins
-  plugins: [
-    // Copy plugin to copy all files from './source/favico' to root of the project
-    new CopyPlugin([
-      {
-        from: './source/favicon',
-        to: './',
-      },
-      {
-        from: './source/json',
-        to: './json',
-      },
-    ]),
-  ],
 
   // Modules
   module: {
