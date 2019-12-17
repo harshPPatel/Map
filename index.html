@@ -23,7 +23,7 @@
   
     var mymap = L.map('mapid').setView([51.505, -0.09], 13);
   
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=', {
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
       maxZoom: 18,
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
         '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -37,15 +37,19 @@
 
     var popup = L.popup();
     function onMapClick(e) {
-    popup
+      popup
         .setLatLng(e.latlng)
         .setContent("You clicked the map at " + e.latlng.toString())
         .openOn(mymap);
-}
+    }
 
-mymap.on('click', onMapClick)
-//map.on('click', function(ev) {
-    alert(ev.latlng); // ev is an event object (MouseEvent in this case)
-});
+
+mymap.on('click', onMapClick);
+// //map.on('click', function(ev) {
+//     alert(ev.latlng); // ev is an event object (MouseEvent in this case)
+// };
+
+
+
   
   </script>
