@@ -32,6 +32,8 @@
     }).addTo(mymap);
   
     var popup = L.popup();
+    var theMarker = null;
+
     function onMapClick(e) {
       popup
         .setLatLng(e.latlng)
@@ -39,11 +41,20 @@
         .openOn(mymap);
       // marker
       console.log(e.latlng);
-      L.marker([e.latlng.lat, e.latlng.lng])
+
+      // Now lets work on search
+      if (theMarker) {
+        mymap.removeLayer(theMarker);
+      }
+      theMarker = L.marker([e.latlng.lat, e.latlng.lng])
         .addTo(mymap)
         .bindPopup("You clicked the map at " + e.latlng.toString()).openPopup();
-    }
 
+        
+
+    //Add a marker to show where you clicked.
+    //theMarker =  L.marker([e.latlng.lat, e.latlng.lng])
+}
 
 mymap.on('click', onMapClick);
 // //map.on('click', function(ev) {
