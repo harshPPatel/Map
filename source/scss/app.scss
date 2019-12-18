@@ -1,6 +1,9 @@
 @import '../../node_modules/leaflet-geosearch/assets/css/leaflet.css';
 
 #mapid {
-  width: 100vw;
-  height: 100vh;
+  width: 600px;
+  height: 600px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
 }

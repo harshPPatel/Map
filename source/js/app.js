@@ -1,7 +1,6 @@
 /* jshint esversion: 6 */
 import Leaflet from 'leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
-
 // Creating map
 const map = Leaflet.map('mapid')
   .setView([51.505, -0.09], 13);
@@ -15,12 +14,16 @@ Leaflet.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?acces
   zoomOffset: -1,
   maxZoom: 18,
   attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-  id: 'mapbox/streets-v11',
+});
+
+const map = Leaflet.map('mapid', {
+  center: [51.505, -0.09],
+  zoom: 13,
 })
-  .addTo(map);
+  .addLayer(tileLayer);
 
 // Handles the click event of map
-const onMapClicked = (e) => {
+function onMapClicked(e) {
   if (marker) {
     map.removeLayer(marker);
   }
@@ -29,7 +32,7 @@ const onMapClicked = (e) => {
     .addTo(map)
     .bindPopup(`You clicked the map at ${e.latlng.toString()}`)
     .openPopup();
-};
+}
 
 // Adding click event to Map
 map.on('click', onMapClicked);
@@ -44,7 +47,6 @@ const searchController = new GeoSearchControl({
 
 map.addControl(searchController);
 
-// Stopping app for 1 second before running invalidateSize
 setTimeout(() => {
   map.invalidateSize();
 }, 1000);
