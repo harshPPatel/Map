@@ -1,3 +1,4 @@
+/* jshint esversion: 6 */
 // Importing app.js
 import './js/app';
 
