@@ -1,4 +1,5 @@
 /* jshint esversion: 6 */
+// Plugins
 // Exporting common webpack configuration
 module.exports = {
   // Entry points
