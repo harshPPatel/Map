@@ -6,7 +6,7 @@ import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 let marker;
 
 // Initializing Map
-const tileLayer = Leaflet.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+const tileLayer = Leaflet.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token='Your API key', {
   tileSize: 512,
   zoomOffset: -1,
   maxZoom: 18,
