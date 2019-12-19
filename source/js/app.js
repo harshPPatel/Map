@@ -1,13 +1,15 @@
 /* jshint esversion: 6 */
 import Leaflet from 'leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+import 'leaflet.locatecontrol';
+import MiniMap from 'leaflet-minimap';
 import token from '../API_Token';
 
 // Marker
 let marker;
 
 // Initializing Map
-const tileLayer = Leaflet.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${token.token}`, {
+const streetTileLayer = Leaflet.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${token.token}`, {
   tileSize: 512,
   zoomOffset: -1,
   maxZoom: 18,
@@ -15,11 +17,44 @@ const tileLayer = Leaflet.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles
   id: 'mapbox/streets-v11',
 });
 
-const map = new Leaflet.map('mapid', {
-  center: [51.505, -0.09],
-  zoom: 13,
+const sateliteTileLayer = Leaflet.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${token.token}`, {
+  tileSize: 512,
+  zoomOffset: -1,
+  maxZoom: 18,
+  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+  id: 'mapbox/satellite-streets-v11',
 });
-map.addLayer(tileLayer);
+
+/* eslint-disable */
+const map = new Leaflet
+  .map('mapid', {
+    center: [51.505, -0.09],
+    zoom: 13,
+    layers: [streetTileLayer, sateliteTileLayer],
+  });
+/* eslint-enable */
+
+const baseMaps = {
+  Satelite: sateliteTileLayer,
+  Street: streetTileLayer,
+};
+
+Leaflet.control.layers(baseMaps).addTo(map);
+/* eslint-enable */
+// map.addLayer(tileLayer);
+
+new MiniMap(Leaflet.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${token.token}`, {
+  tileSize: 512,
+  zoomOffset: -1,
+  maxZoom: 18,
+  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+  id: 'mapbox/streets-v11',
+}), {
+  toggleDisplay: true,
+  // zoomLevelOffset: -3,
+}).addTo(map);
+
+Leaflet.control.locate().addTo(map);
 
 // Handles the click event of map
 function onMapClicked(e) {
@@ -27,21 +62,26 @@ function onMapClicked(e) {
     map.removeLayer(marker);
   }
 
-  // here the marker works as a constructor
-  marker = Leaflet.marker([e.latlng.lat, e.latlng.lng], {
-    draggable: true,
-  })
-    .addTo(map)
-    .bindPopup(`You clicked the map at ${e.latlng.toString()}`)
-    .openPopup();
-
-  marker.on('dragend', (event) => {
-    const latlng = event.target.getLatLng();
-    console.log(latlng.lat, latlng.lng);
-    // you can also write console.log(latlng.lat, event.target._latlng.lng);
-  });
-  // we also need to make marker dragable,
-  // event code is fine, you just need to add options object in marker constructor
+  // https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=51.990819&lon=4.220295
+  fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${e.latlng.lat}&lon=${e.latlng.lng}`)
+    .then((data) => data.json())
+    .then((res) => {
+      marker = Leaflet.marker([e.latlng.lat, e.latlng.lng], {
+        draggable: true,
+      })
+        .addTo(map)
+        .bindPopup(res.display_name)
+        .openPopup();
+      marker.on('dragend', (event) => {
+        const latlng = event.target.getLatLng();
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latlng.lat}&lon=${latlng.lng}`)
+          .then((data2) => data2.json())
+          .then((res2) => {
+            marker.bindPopup(res2.display_name)
+              .openPopup();
+          });
+      });
+    });
 }
 
 // Adding click event to Map
@@ -67,6 +107,7 @@ function onResultSelected(e) {
     map.removeLayer(marker);
   }
 
+  /* eslint-disable */
   marker = Leaflet.marker([e.marker._latlng.lat, e.marker._latlng.lng], {
     draggable: true,
   })
