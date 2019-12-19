@@ -1,12 +1,13 @@
 /* jshint esversion: 6 */
 import Leaflet from 'leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+import token from '../API_Token';
 
 // Marker
 let marker;
 
 // Initializing Map
-const tileLayer = Leaflet.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token='Your API key', {
+const tileLayer = Leaflet.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${token.token}`, {
   tileSize: 512,
   zoomOffset: -1,
   maxZoom: 18,

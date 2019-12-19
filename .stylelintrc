@@ -1,7 +1,8 @@
 {
   "rules": {
     "at-rule-empty-line-before": [ "always", {
-      except: ["after-same-name", "inside-block", "blockless-after-same-name-blockless", "blockless-after-blockless", "first-nested"]
+      except: ["after-same-name", "inside-block", "blockless-after-same-name-blockless", "blockless-after-blockless", "first-nested"],
+      ignore: ["after-comment"],
     }],
     "at-rule-name-case": "lower",
     "at-rule-no-vendor-prefix": true,
@@ -75,7 +76,7 @@
     "string-quotes": "single",
     "unit-case": "lower",
     "unit-no-unknown": true,
-    "unit-whitelist": ["em", "rem", "%", "s", "px"],
+    "unit-whitelist": ["em", "rem", "%", "s", "px", "vw", "vh"],
     "value-keyword-case": "lower",
     "value-list-comma-space-after": "always",
     "value-list-comma-space-before": "never"
