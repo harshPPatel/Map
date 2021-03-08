@@ -65,7 +65,7 @@
     "leaflet-minimap": "^3.6.1",
     "leaflet.locatecontrol": "^0.68.0",
     "selectivizr": "^1.0.3",
-    "stylelint": "^11.0.0",
+    "stylelint": "^13.0.0",
     "webpack-merge": "^4.2.1"
   }
 }
